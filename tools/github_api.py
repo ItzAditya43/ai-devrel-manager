@@ -1,13 +1,17 @@
 import requests
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+# ✅ Support for both local and Streamlit Cloud environments
+try:
+    import streamlit as st
+    GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
+except Exception:
+    from dotenv import load_dotenv
+    load_dotenv()
+    GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
 if not GITHUB_TOKEN:
-    raise EnvironmentError("❌ GITHUB_TOKEN is missing. Please set it in your .env file.")
+    raise EnvironmentError("❌ GITHUB_TOKEN is missing. Please set it in your .env (locally) or secrets.toml (for deployment).")
 
 HEADERS = {"Authorization": f"token {GITHUB_TOKEN}"}
 
