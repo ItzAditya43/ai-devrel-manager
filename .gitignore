@@ -1,0 +1,67 @@
+# ================================
+# 📦 Python
+# ================================
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+*.pyo
+*.pyd
+*.pdb
+
+# ================================
+# 🧪 Virtual Env
+# ================================
+venv/
+env/
+.venv/
+ENV/
+
+# ================================
+# 📁 IDEs and Editors
+# ================================
+.vscode/
+.idea/
+*.swp
+.DS_Store
+*.sublime-workspace
+
+# ================================
+# 🔐 Secrets (NEVER commit)
+# ================================
+.env
+.env.*
+*.env
+secrets.toml
+.streamlit/secrets.toml
+
+# ================================
+# 📊 Data Files (local outputs)
+# ================================
+data/
+*.json
+*.csv
+*.db
+
+# ================================
+# 🏗️ Logs and Caches
+# ================================
+*.log
+*.tmp
+.cache/
+*.bak
+*.old
+
+# ================================
+# 💻 OS Files
+# ================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ================================
+# ☁️ Streamlit Cloud auto-generated
+# ================================
+.streamlit/config.toml
