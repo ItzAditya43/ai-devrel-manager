@@ -108,7 +108,7 @@ if st.button("🚀 Run Analysis"):
         try:
             analyze_repository(repo_input)
             st.success("✅ Analysis complete! Redirecting to dashboard...")
-            st.switch_page("app.py")
+            st.switch_page("dashboard.py")
         except Exception as e:
             st.error(f"❌ Analysis failed: {e}")
 
