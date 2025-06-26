@@ -4,6 +4,6 @@ plotly
 pandas
 matplotlib
 python-dotenv
-tavily
 ollama
 scikit-learn
+git+https://github.com/tavily/tavily-python.git
