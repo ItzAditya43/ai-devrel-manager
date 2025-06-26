@@ -4,3 +4,4 @@ plotly>=5.14
 pandas>=2.0
 tqdm>=4.65
 python-dotenv>=1.0
+tavily
