@@ -6,4 +6,3 @@ matplotlib
 python-dotenv
 ollama
 scikit-learn
-git+https://github.com/tavily/tavily-python.git
