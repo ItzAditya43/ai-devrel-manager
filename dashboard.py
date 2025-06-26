@@ -5,9 +5,23 @@ import pandas as pd
 import plotly.graph_objects as go
 from run_pipeline import analyze_repository
 
+# ---------- Persistent History Storage ----------
+HISTORY_FILE = "search_history.json"
+
+def load_history():
+    try:
+        with open(HISTORY_FILE, "r") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+def save_history(history):
+    with open(HISTORY_FILE, "w") as f:
+        json.dump(history[:5], f)  # Save only the last 5 entries
+
 # --------- Session State Init ---------
 if "search_history" not in st.session_state:
-    st.session_state.search_history = []
+    st.session_state.search_history = load_history()
 
 # --------- Utility Functions ---------
 def load_issues(file_path):
@@ -139,6 +153,7 @@ if st.sidebar.button("🚀 Run Analysis"):
             if repo_input not in st.session_state.search_history:
                 st.session_state.search_history.insert(0, repo_input)
                 st.session_state.search_history = st.session_state.search_history[:5]
+                save_history(st.session_state.search_history)
             st.rerun()
         except Exception as e:
             st.error(f"❌ Analysis failed: {e}")
@@ -155,6 +170,7 @@ for repo in st.session_state.search_history:
 
 if st.sidebar.button("🧹 Clear History"):
     st.session_state.search_history = []
+    save_history([])
     st.experimental_rerun()
 
 # --------- Load Data ---------
