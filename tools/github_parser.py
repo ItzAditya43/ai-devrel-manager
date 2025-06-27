@@ -6,11 +6,16 @@ def load_issues(file_path):
 
     issues = []
     for issue in data:
-        issues.append({
-            "title": issue.get("title"),
-            "body": issue.get("body", ""),
-            "labels": [label["name"] for label in issue.get("labels", [])],
-            "number": issue.get("number"),
-            "created_at": issue.get("created_at", "N/A")
-        })
+        try:
+            issues.append({
+                "title": issue.get("title") or "",
+                "body": issue.get("body") or "",
+                "labels": [label.get("name", "") for label in issue.get("labels") or []],
+                "number": issue.get("number", "N/A"),
+                "created_at": issue.get("created_at", "N/A")
+            })
+        except Exception as e:
+            print(f"[!] Failed to parse issue #{issue.get('number', 'unknown')}: {e}")
+            continue  # Skip this issue safely
+
     return issues

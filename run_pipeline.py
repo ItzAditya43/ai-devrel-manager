@@ -6,7 +6,7 @@ from tools.tavily_search import search_tavily_snippets
 import os, json
 from collections import Counter
 
-# Helper to clean up raw Tavily snippets
+# Clean up Tavily snippet content
 def clean_snippet(text):
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     lines = [l for l in lines if len(l) > 40 and not l.lower() in ("response_format", "strict: true")]
@@ -32,28 +32,27 @@ def analyze_repository(repo: str):
         label = classify_issue(issue_text)
         issue["predicted_label"] = label
 
-        # ✅ Tavily context search using title + partial body
         try:
             query = f"{issue['title']} {issue['body'][:150]}"
             web_snippets = search_tavily_snippets(query)
 
-            # Clean and attach
             for s in web_snippets:
                 s["content"] = clean_snippet(s.get("content", ""))
 
-            # Context blob for LLM
+            # Format: title, content and link for LLM prompt
             tavily_context = "\n\n".join(
-                f"{s['title']}\n{s['content']}" for s in web_snippets if s["content"]
+                f"🔹 {s['title']}\n{s['content']}\n🔗 {s['url']}"
+                for s in web_snippets if s["content"]
             )
+
         except Exception as e:
             print(f"[!] Tavily failed for issue #{issue['number']}: {e}")
             web_snippets = []
             tavily_context = ""
 
-        issue["web_snippets"] = web_snippets       # ✅ for dashboard
-        issue["web_context"] = tavily_context      # ✅ for LLM prompt
+        issue["web_snippets"] = web_snippets
+        issue["web_context"] = tavily_context
 
-        # ✅ Suggest DevRel action
         try:
             suggestion = recommend_devrel_action(issue)
         except Exception as e:
