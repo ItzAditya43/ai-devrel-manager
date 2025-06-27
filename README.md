@@ -26,7 +26,8 @@ Let AI analyze GitHub issues and suggest high-impact DevRel actions — powered 
 
 > Below: The dashboard showing issue classification, suggestions, and real-time GitHub insights.
 
-![Landing Page Screenshot](.github/landing_screenshot.png)
+![image](https://github.com/user-attachments/assets/e791b37d-4931-4f2e-982a-c76bb7e954ba)
+![image](https://github.com/user-attachments/assets/689a6bde-bbde-4124-9624-0f384d26b97b)
 
 ---
 
