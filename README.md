@@ -12,17 +12,19 @@ Let AI analyze GitHub issues and suggest high-impact DevRel actions — powered 
 
 ## 🔍 What It Does
 
-DevRel AI Assistant is an intelligent tool that automates Developer Relations workflows by analyzing GitHub issues from any public repository. It provides:
+**DevRel AI Assistant** is an LLM-powered tool to streamline Developer Relations workflows by analyzing GitHub issues from any public repository. It provides:
 
-* 🧠 **LLM-based Issue Classification** using local LLaMA3
-* 🌐 **Web Context Search** via Tavily snippets
-* 💡 **Actionable DevRel Suggestions** from an AI agent
-* 📊 **Visual Dashboards** to explore and export insights
-* 🧾 **Report Generation** with downloadable summaries
+- 🧠 **LLM-based Issue Classification** via local LLaMA 3 (Ollama)
+- 🌐 **Web Contextual Insights** from Tavily API
+- 💡 **Concrete DevRel Suggestions** (under 120 words)
+- 📊 **Interactive Dashboard** to explore, filter, and export insights
+- 📥 **Downloadable Reports** in JSON, CSV, and Markdown formats
 
 ---
 
-## 🖥️ Landing Page Preview
+## 🖼️ Sample View
+
+> Below: The dashboard showing issue classification, suggestions, and real-time GitHub insights.
 
 ![Landing Page Screenshot](.github/landing_screenshot.png)
 
@@ -30,59 +32,56 @@ DevRel AI Assistant is an intelligent tool that automates Developer Relations wo
 
 ## ⚙️ How It Works
 
-1. **User Enters a GitHub Repo** (e.g., `langchain-ai/langchain`)
-2. Issues are fetched and classified using a local LLaMA model
-3. Tavily adds helpful web context to improve understanding
-4. A DevRel agent suggests practical actions (like writing docs, starting discussions, improving README)
-5. Visual dashboards and reports summarize the results
+1. **User Enters a GitHub Repo** (e.g. `langchain-ai/langchain`)
+2. GitHub issues are fetched and cleaned
+3. **LLaMA 3 (via Ollama)** classifies issues and suggests DevRel actions
+4. **Tavily** searches the web and appends useful snippets for context
+5. Dashboard shows charts, insights, and DevRel strategy suggestions
 
 ---
 
 ## 💡 Use Cases
 
-* Developer Advocates prioritizing GitHub feedback
-* Open Source maintainers planning content or documentation
-* DevRel teams wanting data-backed action suggestions
-* Anyone managing large GitHub repos
+- Developer Relations teams prioritizing GitHub feedback
+- OSS maintainers planning documentation or community outreach
+- Dev Advocates summarizing user friction points
+- Technical PMs managing issue triage at scale
 
 ---
 
 ## 🚀 Getting Started Locally
 
-1. **Clone the Repo**
+### 1. Clone the Repo
+```bash
+git clone https://github.com/your-username/devrel-ai-assistant.git
+cd devrel-ai-assistant
+````
 
-   ```bash
-   git clone https://github.com/your-username/devrel-ai-assistant.git
-   cd devrel-ai-assistant
-   ```
+### 2. Set Up Environment
 
-2. **Set Up Requirements**
+```bash
+pip install -r requirements.txt
+```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 3. Set Tavily API Key
 
-3. **Run Locally**
+Add this to your `.env` or `.streamlit/secrets.toml`:
 
-   ```bash
-   streamlit run main.py
-   ```
+```
+TAVILY_API_KEY=your_key_here
+```
 
-4. **Make Sure Ollama Is Running with LLaMA3**
+### 4. Run Ollama LLaMA 3
 
-   ```bash
-   ollama run llama3
-   ```
+```bash
+ollama run llama3
+```
 
----
+### 5. Launch the App
 
-## 🌐 Deployment (Streamlit Cloud)
-
-To deploy:
-
-* Move your secrets (like API keys) to `.streamlit/secrets.toml`
-* Push the project to GitHub
-* Deploy it directly via [Streamlit Community Cloud](https://streamlit.io/cloud)
+```bash
+streamlit run main.py
+```
 
 ---
 
@@ -90,35 +89,48 @@ To deploy:
 
 ```
 .
-├── main.py                # Landing page (SaaS-style interface)
-├── dashboard.py           # Interactive dashboard
-├── run_pipeline.py        # Core orchestration logic for processing issues
-├── report.py              # Renders downloadable summary tables in dashboard
-├── report_generator.py    # Builds structured reports per label/issue
+├── main.py                  # Home screen for inputting repos
+├── pages/
+│   └── dashboard.py         # Interactive dashboard with charts & filters
+├── run_pipeline.py          # Core agent pipeline (classification + Tavily + DevRel)
+├── report_generator.py      # Generates structured reports per label
+├── report.py                # Report rendering helpers
 ├── agents/
-│   ├── classifier_agent.py   # LLaMA-based issue classification
-│   ├── devrel_agent.py       # DevRel suggestion generator using LLaMA
+│   ├── classifier_agent.py  # Predicts label from issue using LLaMA
+│   └── devrel_agent.py      # Suggests DevRel actions using LLaMA
 ├── tools/
-│   ├── github_api.py         # GitHub issue fetching utility
-│   ├── github_parser.py      # Cleans and parses raw issue data
-│   ├── tavily_search.py      # Web search snippet API wrapper
-├── data/                  # Stores processed issue datasets (JSON)
-├── .streamlit/
-│   └── secrets.toml       # API keys for Tavily and other services
-├── requirements.txt       # Python dependencies
+│   ├── github_api.py        # Pulls issues from GitHub API
+│   ├── github_parser.py     # Cleans/parses raw issue data
+│   └── tavily_search.py     # Adds external context via Tavily API
+├── data/                    # Stores processed issue datasets (.json)
+├── requirements.txt
 └── README.md
 ```
 
 ---
 
+## 🌐 Deploy to Streamlit Cloud
+
+To deploy:
+
+* Move your `TAVILY_API_KEY` into `.streamlit/secrets.toml`
+* Push to GitHub
+* Deploy directly via [Streamlit Cloud](https://streamlit.io/cloud)
+
+---
+
 ## 🛡️ License
 
-This project is licensed under the MIT License.
+This project is licensed under the **MIT License**. Use freely, modify proudly.
 
 ---
 
 ## 🙌 Credits
 
-Built with ❤️ using [Streamlit](https://streamlit.io), [Ollama](https://ollama.com), and [Tavily](https://www.tavily.com).
+Built with ❤️ by \[Adi Pandey] using:
+
+* [Streamlit](https://streamlit.io/)
+* [Ollama (LLaMA 3)](https://ollama.com/)
+* [Tavily](https://www.tavily.com/)
 
 ---
