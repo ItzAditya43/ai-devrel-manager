@@ -99,7 +99,7 @@ st.markdown("<h1>DevRel AI Assistant</h1>", unsafe_allow_html=True)
 st.markdown("<p class='subtitle'>Let AI analyze GitHub issues and suggest high-impact DevRel actions</p>", unsafe_allow_html=True)
 
 # ---------- Input ----------
-repo_input = st.text_input("Enter GitHub repo", value="deepseek-ai/DeepSeek-V3")
+repo_input = st.text_input("Enter GitHub repo", value="")
 
 # ---------- Trigger Analysis ----------
 if st.button("🚀 Run Analysis"):

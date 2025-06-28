@@ -51,7 +51,7 @@ def analyze_repository(repo: str):
             tavily_context = ""
 
         issue["web_snippets"] = web_snippets
-        issue["web_context"] = tavily_context
+        issue["web_context"] = tavily_context[:1000]
 
         try:
             suggestion = recommend_devrel_action(issue)

@@ -1,54 +1,52 @@
-import requests
+import os
 import time
+import requests
+from dotenv import load_dotenv
 
-def recommend_devrel_action(issue, model="llama3", min_word_count=20):
+load_dotenv()
+
+OLLAMA_API_URL = "https://aditya69690-100-hack.hf.space/api/chat"
+
+def recommend_devrel_action(issue, model="tinyllama", min_word_count=10):
     title = issue.get("title", "")
     body = issue.get("body", "")
     label = issue.get("predicted_label", "unknown")
-    context = issue.get("web_context") or "[No external context found]"
+    context = issue.get("web_context") or "[No extra context]"
 
-    # 🎯 Refined DevRel LLM Prompt
-    prompt = f"""
-You are a Developer Relations (DevRel) strategist AI.
+    system_prompt = "You are a Developer Relations (DevRel) assistant. Suggest clear, practical actions to improve GitHub issues."
 
-Your task: suggest one **concrete and specific** DevRel action that can help improve or resolve the GitHub issue below. This could include writing a guide, improving docs, adding examples, hosting a discussion, or clarifying errors.
-
-Avoid generalizations. Focus on **useful, actionable** improvements. You may use the external context if helpful.
-
----
+    user_prompt = f"""
 Label: {label}
+Title: {title}
+Body: {body}
+Context: {context}
 
-Title:
-{title}
-
-Body:
-{body}
-
-External Context:
-{context}
----
-
-🧠 Respond in **under 120 words**, ideally 3–5 clear sentences. Make it practical, not vague. Do not repeat the issue content. Do not say “No suggestion”.
+Suggest one specific, actionable DevRel improvement in 1–2 sentences. Avoid fluff or repeating the issue.
 """
 
-    def call_llama(prompt_text, attempt):
+    def call_llm(prompt_text, attempt):
         try:
             response = requests.post(
-                "http://localhost:11434/api/generate",
-                json={"model": model, "prompt": prompt_text, "stream": False},
-                timeout=45
+                OLLAMA_API_URL,
+                json={
+                    "model": model,
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": prompt_text}
+                    ],
+                    "stream": False
+                },
+                timeout=20
             )
             response.raise_for_status()
-            return response.json().get("response", "").strip()
+            return response.json()["message"]["content"].strip()
         except Exception as e:
             print(f"[LLM Error Attempt {attempt}] {e}")
-            print("🧠 Prompt that caused failure:\n", prompt_text[:300], "...\n")
             return ""
 
-    # 🔁 Retry loop
     for attempt in range(2):
-        result = call_llama(prompt, attempt + 1)
-        if len(result.split()) >= min_word_count and "no suggestion" not in result.lower():
+        result = call_llm(user_prompt, attempt + 1)
+        if result and "no suggestion" not in result.lower() and len(result.split()) >= min_word_count:
             return result
         time.sleep(1 + 2 * attempt)
 

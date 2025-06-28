@@ -104,6 +104,7 @@ streamlit run main.py
 │   └── tavily_search.py     # Adds external context via Tavily API
 ├── data/                    # Stores processed issue datasets (.json)
 ├── requirements.txt
+├── .env                     # Store Project secrets
 └── README.md
 ```
 
