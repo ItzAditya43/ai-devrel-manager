@@ -91,11 +91,11 @@ if "search_history" not in st.session_state:
     st.session_state.search_history = load_history()
 
 if "repo_input" not in st.session_state:
-    st.session_state.repo_input = "langchain-ai/langchain"
+    st.session_state.repo_input = ""
 
 # Handle jump from main.py
 if st.session_state.get("jump_to_dashboard"):
-    repo_input = st.session_state.get("last_repo", "langchain-ai/langchain")
+    repo_input = st.session_state.get("last_repo")
     del st.session_state["jump_to_dashboard"]
     st.session_state.repo_input = repo_input
     if repo_input not in st.session_state.search_history:
